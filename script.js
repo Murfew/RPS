@@ -8,40 +8,67 @@ function getComputerChoice() {
     return CHOICES[cpuChoiceIndex]
 }
 
-console.log(getComputerChoice())
-
 function playRound(playerSelection, computerSelection) {
-    let playerSelection = playerSelection.toLowerCase()
+    playerSelection = playerSelection.toLowerCase()
 
     if (playerSelection == ROCK) {
 
         if (computerSelection == ROCK) {
-            return "It's a Tie!"
+            return 0
         } else if (computerSelection == PAPER) {
-            return "You Lose! Paper beats Rock!"
+            return -1
         } else {
-            return "You Win! Rock beats Scissors!"
+            return 1
         }
 
     } else if (playerSelection == PAPER) {
 
         if (computerSelection == ROCK) {
-            return "You Win! Paper beats Rock!"
+            return 1
         } else if (computerSelection == PAPER) {
-            return "It's a Tie!"
+            return 0
         } else {
-            return "You Lose! Scissors beats Paper!"
+            return -1
         }
 
     } else {
 
         if (computerSelection == ROCK) {
-            return "You Lose! Rock beats Scissors!"
+            return -1
         } else if (computerSelection == PAPER) {
-            return "You Win! Scissors beats Paper!"
+            return 1
         } else {
-            return "It's a Tie!"
+            return 0
         }
 
     }
 }
+
+function game() {
+    let playerScore = 0
+    let computerScore = 0
+
+    while (playerScore < 3 && computerScore < 3) {
+        let computerSelection = getComputerChoice()
+        let playerSelection = prompt("Will you play Rock, Paper or Scissors?")
+        let result = playRound(playerSelection, computerSelection)
+
+        if (result == 1) {
+            playerScore += 1
+            console.log("Player Wins! The score is now: " + playerScore + ":" + computerScore) 
+        } else if (result == -1) {
+            computerScore += 1
+            console.log("Computer Wins! The score is now: " + playerScore + ":" + computerScore) 
+        } else {
+            console.log("Tie! Nobody Wins! The score is now: " + playerScore + ":" + computerScore) 
+        }
+    }
+
+    if (playerScore > computerScore) {
+        console.log("Player Wins!" + playerScore + "points to " + computerScore)
+    } else {
+        console.log("Computer Wins!" + computerScore + "points to " + playerScore)
+    }
+}
+
+game()
