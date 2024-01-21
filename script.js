@@ -50,7 +50,26 @@ function game() {
 
     while (playerScore < 3 && computerScore < 3) {
         let computerSelection = getComputerChoice()
-        let playerSelection = prompt("Will you play Rock, Paper or Scissors?")
+        let playerSelection = null
+        
+        let rockBtn = document.getElementById("rock")
+        rockBtn.addEventListener("click", () => {
+            playerSelection = ROCK
+        })
+
+        let paperBtn = document.getElementById("paper")
+        paperBtn.addEventListener("click", () => {
+            playerSelection = PAPER
+        })
+
+        let scissorsBtn = document.getElementById("scissors")
+        scissorsBtn.addEventListener("click", () => {
+            playerSelection = SCISSORS
+        })
+
+
+
+
         let result = playRound(playerSelection, computerSelection)
 
         if (result == 1) {
