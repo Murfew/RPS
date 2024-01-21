@@ -44,50 +44,58 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
+function game(playerSelection) {
+
+    let pScoreDisplay = document.getElementById("playerScore")
+    let cScoreDisplay = document.getElementById("computerScore")
+    let commentary = document.getElementById("commentary")
+
     let playerScore = 0
     let computerScore = 0
 
-    while (playerScore < 3 && computerScore < 3) {
-        let computerSelection = getComputerChoice()
-        let playerSelection = null
-        
-        let rockBtn = document.getElementById("rock")
-        rockBtn.addEventListener("click", () => {
-            playerSelection = ROCK
-        })
+    let computerSelection = getComputerChoice()
 
-        let paperBtn = document.getElementById("paper")
-        paperBtn.addEventListener("click", () => {
-            playerSelection = PAPER
-        })
+    pScoreDisplay.textContent = "Player: " + playerScore
+    cScoreDisplay.textContent = "Computer: " + computerScore
+    commentary.textContent = "The game is about to start! First to 3 points wins!"
 
-        let scissorsBtn = document.getElementById("scissors")
-        scissorsBtn.addEventListener("click", () => {
-            playerSelection = SCISSORS
-        })
+    let result = playRound(playerSelection, computerSelection)
 
-
-
-
-        let result = playRound(playerSelection, computerSelection)
-
-        if (result == 1) {
-            playerScore += 1
-            console.log("Player Wins! The score is now: " + playerScore + ":" + computerScore) 
-        } else if (result == -1) {
-            computerScore += 1
-            console.log("Computer Wins! The score is now: " + playerScore + ":" + computerScore) 
-        } else {
-            console.log("Tie! Nobody Wins! The score is now: " + playerScore + ":" + computerScore) 
-        }
-    }
-
-    if (playerScore > computerScore) {
-        console.log("Player Wins!" + playerScore + "points to " + computerScore)
+    if (result == 1) {
+        playerScore += 1
+        pScoreDisplay.textContent = "Player: " + playerScore
+        commentary.textContent = "Player wins the round!"
+    } else if (result == -1) {
+        computerScore += 1
+        cScoreDisplay.textContent = "Computer: " + computerScore
+        commentary.textContent = "Computer wins the round!"
     } else {
-        console.log("Computer Wins!" + computerScore + "points to " + playerScore)
+        commentary.textContent = "Tie! Nobody gains a point!"
     }
+
+    if (playerScore == 3) {
+        //pleyer wins
+        //reset
+    } else if (computerScore == 3) {
+        //computer wins
+        //reset
+    } else {
+        //play again
+    }
+
 }
 
-game()
+function getPlayerChoice() {
+    let playerSelection = null
+
+    let rockBtn = document.getElementById("rock")
+    let paperkBtn = document.getElementById("paper")
+    let scissorsBtn = document.getElementById("scissors")
+
+
+    rockBtn.addEventListener("click", game(ROCK))
+
+    paperkBtn.addEventListener("click", game(PAPER))
+
+    scissorsBtn.addEventListener("click", game(SCISSORS))
+}
