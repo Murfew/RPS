@@ -74,10 +74,12 @@ function game(playerSelection) {
     }
 
     if (playerScore == 3) {
-        //pleyer wins
+        commentary.textContent = "Player wins the game!"
+        alert("Player won the game with " + playerScore + " points to " + computerScore)
         //reset
     } else if (computerScore == 3) {
-        //computer wins
+        commentary.textContent = "Computer wins the game!"
+        alert("Computer won the game with " + computerScore + " points to " + playerScore)
         //reset
     } else {
         //play again
@@ -85,17 +87,21 @@ function game(playerSelection) {
 
 }
 
-function getPlayerChoice() {
-    let playerSelection = null
+let playerSelection = null
 
-    let rockBtn = document.getElementById("rock")
-    let paperkBtn = document.getElementById("paper")
-    let scissorsBtn = document.getElementById("scissors")
+let rockBtn = document.getElementById("rock")
+let paperBtn = document.getElementById("paper")
+let scissorsBtn = document.getElementById("scissors")
 
 
-    rockBtn.addEventListener("click", game(ROCK))
+rockBtn.addEventListener("click", () => {
+    game(ROCK)
+})
 
-    paperkBtn.addEventListener("click", game(PAPER))
+paperBtn.addEventListener("click", () => {
+    game(PAPER)
+})
 
-    scissorsBtn.addEventListener("click", game(SCISSORS))
-}
+scissorsBtn.addEventListener("click", () => {
+    game(SCISSORS)
+})
