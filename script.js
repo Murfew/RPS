@@ -8,6 +8,40 @@ function getComputerChoice() {
     return CHOICES[cpuChoiceIndex]
 }
 
+function getPlayerChoice(playerScore, computerScore) {
+    let rockBtn = document.getElementById("rock")
+    let paperBtn = document.getElementById("paper")
+    let scissorsBtn = document.getElementById("scissors")
+
+    let isListenerActive = true
+
+
+    rockBtn.addEventListener("click", () => {
+        
+        if(!isListenerActive) return;
+        
+        isListenerActive = false
+        game(ROCK, playerScore, computerScore)
+    })
+
+    paperBtn.addEventListener("click", () => {
+
+        if(!isListenerActive) return;
+
+        isListenerActive = false
+        game(PAPER, playerScore, computerScore)
+    })
+
+    scissorsBtn.addEventListener("click", () => {
+
+        if(!isListenerActive) return;
+
+        isListenerActive = false
+        game(SCISSORS, playerScore, computerScore)
+    })
+}
+
+
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase()
 
@@ -44,22 +78,18 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game(playerSelection) {
+function game(playerSelection, playerScore, computerScore) {
 
+    
+    
     let pScoreDisplay = document.getElementById("playerScore")
     let cScoreDisplay = document.getElementById("computerScore")
     let commentary = document.getElementById("commentary")
-
-    let playerScore = 0
-    let computerScore = 0
-
+    
     let computerSelection = getComputerChoice()
 
-    pScoreDisplay.textContent = "Player: " + playerScore
-    cScoreDisplay.textContent = "Computer: " + computerScore
-    commentary.textContent = "The game is about to start! First to 3 points wins!"
-
     let result = playRound(playerSelection, computerSelection)
+
 
     if (result == 1) {
         playerScore += 1
@@ -74,34 +104,69 @@ function game(playerSelection) {
     }
 
     if (playerScore == 3) {
+        pScoreDisplay.textContent = "Player: " + playerScore
         commentary.textContent = "Player wins the game!"
-        alert("Player won the game with " + playerScore + " points to " + computerScore)
-        //reset
-    } else if (computerScore == 3) {
-        commentary.textContent = "Computer wins the game!"
-        alert("Computer won the game with " + computerScore + " points to " + playerScore)
-        //reset
-    } else {
-        //play again
-    }
+        
+        const yesBtn = document.createElement("button")
+        const noBtn = document.createElement("button")
+        const btnDiv = document.getElementById("resetButtons")
 
+        yesBtn.textContent = "Play Again"
+        noBtn.textContent = "Quit"
+
+        yesBtn.addEventListener("click", () => {
+            yesBtn.remove()
+            noBtn.remove()
+            initializeGame()
+        })
+
+        noBtn.addEventListener("click", () => {
+            close()
+        })
+
+        btnDiv.appendChild(yesBtn)
+        btnDiv.appendChild(noBtn)
+        
+    } else if (computerScore == 3) {        
+        cScoreDisplay.textContent = "Computer: " + computerScore
+        commentary.textContent = "Computer wins the game!"
+        const yesBtn = document.createElement("button")
+        const noBtn = document.createElement("button")
+        const btnDiv = document.getElementById("resetButtons")
+
+        yesBtn.textContent = "Play Again"
+        noBtn.textContent = "Quit"
+
+        yesBtn.addEventListener("click", () => {
+            yesBtn.remove()
+            noBtn.remove()
+            initializeGame()
+        })
+
+        noBtn.addEventListener("click", () => {
+            close()
+        })
+
+        btnDiv.appendChild(yesBtn)
+        btnDiv.appendChild(noBtn)
+    } else {
+        getPlayerChoice(playerScore, computerScore)
+    }
 }
 
-let playerSelection = null
+function initializeGame() {
+    let pScoreDisplay = document.getElementById("playerScore")
+    let cScoreDisplay = document.getElementById("computerScore")
+    let commentary = document.getElementById("commentary")
 
-let rockBtn = document.getElementById("rock")
-let paperBtn = document.getElementById("paper")
-let scissorsBtn = document.getElementById("scissors")
+    let playerScore = 0
+    let computerScore = 0
 
+    pScoreDisplay.textContent = "Player: " + playerScore
+    cScoreDisplay.textContent = "Computer: " + computerScore
+    commentary.textContent = "The game is about to start! First to 3 points wins!"
 
-rockBtn.addEventListener("click", () => {
-    game(ROCK)
-})
+    getPlayerChoice(playerScore, computerScore)
+}
 
-paperBtn.addEventListener("click", () => {
-    game(PAPER)
-})
-
-scissorsBtn.addEventListener("click", () => {
-    game(SCISSORS)
-})
+initializeGame()
